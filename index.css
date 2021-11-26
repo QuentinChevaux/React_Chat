@@ -36,12 +36,6 @@ body {
 
 }
 
-a {
-
-    text-decoration: none;
-
-}
-
 .header {
 
     padding: 10px 50px;
@@ -90,12 +84,17 @@ h1 {
 
 .chat_display_text {
 
-    margin: 40px;
+    margin: 25px;
 
     background-color: tomato;
 
-    height: 615px;
+    height: 640px;
 
+}
+
+.display_none {
+
+    display:none;
 }
 
 /* CHAT BOx */
@@ -124,12 +123,15 @@ h1 {
 
 }
 
-#send_message_button {
+#send_message_button, #login_button, #logout_button {
+    
+    text-decoration: none;
 
     margin-left: 60px;
 
     padding: 10px 20px;
     background-color: white;
+    color: black;
 
 }
 
