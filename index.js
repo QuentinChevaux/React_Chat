@@ -3,7 +3,7 @@ class Chat extends React.Component {
     constructor(props) {
         super(props);
         
-        this.state = {login_text: '', is_connected: false, user_input_text: '', tabmess: ["coucou","test"]}
+        this.state = {login_text: '', is_connected: false, user_input_text: '', tabmess: [""]}
 
         this.enter_login = this.enter_login.bind(this)
 
@@ -35,7 +35,7 @@ class Chat extends React.Component {
 
     message_sent(event) {
 
-        this.setState({  })
+        this.setState( { tabmess: [...this.state.tabmess, this.state.user_input_text] } )
 
         this.setState({ user_input_text: '' })
 
@@ -106,7 +106,7 @@ function Header(props) {
 
 function Middle_page(props) {
 
-    return <div className='flex bg_white'>
+    return <div className='flex'>
 
         <Left_online_status />
 
@@ -121,7 +121,7 @@ function Middle_page(props) {
 
 function Left_online_status(props) {
 
-    return <div className='bg_salmon left_status_online'>
+    return <div className='left_status_online'>
 
         <h2>Utilisateurs en Ligne :</h2>
 
@@ -146,11 +146,11 @@ function Chat_display(props) {
 
     console.log(props.typing)
 
-    return <div className='bg_blue chat_display'>
+    return <div className='chat_display'>
 
         <div>
 
-            <div className='chat_display_text'>{props.tabmess.map((elem, key) => elem + ' ')} </div>
+            <div className='chat_display_text'>{props.tabmess.map((elem, key) => <div>{elem}</div>)} </div>
 
         </div>
 
@@ -170,7 +170,7 @@ function Chat_box(props) {
 
     }
 
-    return <div className='flex bg_red chat_box'>
+    return <div className='flex chat_box'>
 
         <div>
 
