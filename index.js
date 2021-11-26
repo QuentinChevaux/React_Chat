@@ -3,7 +3,7 @@ class Chat extends React.Component {
     constructor(props) {
         super(props);
         
-        this.state = {login_text: '', is_connected: false, user_input_text: '', tabmess: [""]}
+        this.state = {login_text: '', is_connected: false, user_input_text: '', tabmess: [], tabuser: []}
 
         this.enter_login = this.enter_login.bind(this)
 
@@ -24,6 +24,25 @@ class Chat extends React.Component {
     check_connexion(event) {
 
         this.setState({ is_connected: !this.state.is_connected })
+
+        if ( this.state.is_connected == false ) {
+
+            this.setState( { tabuser: [...this.state.tabuser, this.state.login_text] } )
+
+        }
+
+        else {
+
+            this.setState( {tabmess: [] })
+
+            this.setState( { tabuser: [] })
+
+            this.setState( { user_input_text: '' })
+
+            this.setState( { login_text: '' } )
+
+        }
+
 
     }
 
@@ -47,7 +66,7 @@ class Chat extends React.Component {
 
             <Header login_value = {this.state.login_text} change_login_text = {this.enter_login} if_connected = {this.state.is_connected} change_connexion = {this.check_connexion} />
             <Middle_page if_connected = {this.state.is_connected} typing = {this.state.user_input_text} user_typed_text = {this.user_text} message_sent = {this.message_sent}
-                         tabmess = {this.state.tabmess}/>
+                         tabmess = {this.state.tabmess} tabuser = {this.state.tabuser} />
             <Footer />
 
         </div>
@@ -78,7 +97,7 @@ function Header(props) {
 
         checking_logged = <React.Fragment>
 
-            <p>{props.login_value}</p>
+            <p className='user_id'>Connecte en tant que : &nbsp;{props.login_value}</p>
 
             <a href='#' id='logout_button' onClick = {props.change_connexion} >Logout</a> 
 
@@ -108,7 +127,7 @@ function Middle_page(props) {
 
     return <div className='flex'>
 
-        <Left_online_status />
+        <Left_online_status tabuser = {props.tabuser} />
 
         <Chat_display_and_type if_connected = {props.if_connected} typing = {props.typing}  user_typed_text = {props.user_typed_text} message_sent = {props.message_sent}
             tabmess = {props.tabmess}
@@ -124,6 +143,8 @@ function Left_online_status(props) {
     return <div className='left_status_online'>
 
         <h2>Utilisateurs en Ligne :</h2>
+
+        {props.tabuser.map((elem, key) => <div className='div_user'> {elem} </div> )}
 
     </div>
 
@@ -150,7 +171,7 @@ function Chat_display(props) {
 
         <div>
 
-            <div className='chat_display_text'>{props.tabmess.map((elem, key) => <div>{elem}</div>)} </div>
+            <div className='chat_display_text'>{props.tabmess.map((elem, key) => <div className='div_new_text'> {elem} </div> )} </div>
 
         </div>
 

@@ -56,6 +56,20 @@ body {
 
 }
 
+.user_id {
+
+    font-family: Blacklisted;
+    align-self: center;
+
+}
+
+.div_user {
+
+    margin-top: 30px;
+    font-size: 25px;
+
+}
+
 h1 {
 
     font-size: 50px;
@@ -105,15 +119,32 @@ h1 {
     margin: 25px;
 
     border: 1px solid white;
-    border-radius: 30px;
+    border-top-left-radius: 30px;
+    border-bottom-left-radius: 30px;
 
     height: 640px;
+
+    overflow-y: scroll;
 
 }
 
 .display_none {
 
     display:none;
+}
+
+.div_new_text {
+
+    margin: 25px;
+    padding: 15px;
+    background-color: grey;
+
+    font-size: 25px;
+
+    border-radius: 30px;
+
+    font-family: Cotton Butter;
+
 }
 
 /* CHAT BOx */
