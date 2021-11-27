@@ -54,7 +54,11 @@ class Chat extends React.Component {
 
     message_sent(event) {
 
-        this.setState( { tabmess: [...this.state.tabmess, this.state.user_input_text] } )
+        if ( this.state.tabmess == '') {
+
+            this.setState( { tabmess: [...this.state.tabmess, this.state.user_input_text] } )
+
+        }
 
         this.setState({ user_input_text: '' })
 
