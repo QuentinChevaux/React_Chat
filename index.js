@@ -71,6 +71,7 @@ class Chat extends React.Component {
             <Header login_value = {this.state.login_text} change_login_text = {this.enter_login} if_connected = {this.state.is_connected} change_connexion = {this.check_connexion} />
             <Middle_page if_connected = {this.state.is_connected} typing = {this.state.user_input_text} user_typed_text = {this.user_text} message_sent = {this.message_sent}
                          tabmess = {this.state.tabmess} tabuser = {this.state.tabuser} />
+                         
             {/* <Footer /> */}
 
         </div>
