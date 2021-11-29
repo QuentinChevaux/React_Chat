@@ -57,8 +57,9 @@ class Chat extends React.Component {
         if ( this.state.user_input_text !== '' ) {
 
             this.setState( { tabmess: [...this.state.tabmess, this.state.user_input_text] } )
-        }
 
+        }
+        
         this.setState({ user_input_text: '' })
 
     }
