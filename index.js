@@ -16,63 +16,6 @@ class Chat extends React.Component {
 
     }
 
-    componentDidMount() {
-
-        this.ws = new WebSocket('ws://localhost:8124/')
-
-        this.ws.onopen = () => {
-
-            console.log('Connected');
-
-        }
-
-        this.ws.onerror = () => {
-
-            console.log('error');
-
-        }
-
-        this.ws.onmessage = (log) => {
-
-            let message_recu = JSON.parse(log.data)
-
-            if (message_recu.typeTrame == 'lstUser') {
-
-                this.setState({ tabuser: message_recu.users})
-
-            }
-
-            else if (message_recu.typeTrame == 'idUser') {
-
-                this.id = message_recu.id
-
-            }
-
-            else if (message_recu.typeTrame == 'message') {
-
-                this.setState( { tabmess: [...this.state.tabmess, { user: message_recu.from, date: new Date(message_recu.date), message: message_recu.content } ]})
-
-            }
-
-        }
-        this.ws.onclose = () => {
-
-            this.setState( { tabmess: [] })
-
-            this.setState( { tabuser: [] })
-
-            this.setState( { user_input_text: '' })
-
-            this.setState( { login_text: '' } )
-
-            this.ws.send(JSON.stringify({ type: "", typeTrame: "logOut", nom: this.state.login_text, id: "0" }))
-
-            this.ws = null
-
-        }
-
-    }
-
     enter_login(event) {
 
         this.setState({login_text: event.target.value})
@@ -90,6 +33,8 @@ class Chat extends React.Component {
             this.ws.onopen = () => {
 
                 console.log('Connected');
+
+                this.ws.send(JSON.stringify({ type: "", typeTrame: "user", nom: this.state.login_text, id: "0" }))
 
             }
 
@@ -121,6 +66,12 @@ class Chat extends React.Component {
 
                 }
 
+                else if ( message_recu.typeTrame == 'user') {
+
+                    this.setState( {tabuser: [...this.state.tabuser, {nom: message_recu.nom}]
+                    })
+
+                }
             }
 
             this.ws.onclose = () => {
@@ -138,8 +89,6 @@ class Chat extends React.Component {
             }
 
             this.setState( { tabuser: [...this.state.tabuser, this.state.login_text] } )
-
-            this.ws.send(JSON.stringify({ type: "", typeTrame: "user", nom: this.state.login_text, id: "0" }))
 
         }
 
