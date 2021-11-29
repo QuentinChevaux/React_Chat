@@ -1,6 +1,7 @@
 class Chat extends React.Component {
 
     constructor(props) {
+
         super(props);
         
         this.state = {login_text: '', is_connected: false, user_input_text: '', tabmess: [], tabuser: []}
@@ -12,6 +13,30 @@ class Chat extends React.Component {
         this.user_text = this.user_text.bind(this)
 
         this.message_sent = this.message_sent.bind(this)
+
+    }
+
+    componentDidMount() {
+
+        this.ws = new WebSocket('ws://localhost:8124/')
+
+        this.ws.onopen = () => {
+
+            console.log('Connected');
+
+        }
+
+        this.ws.onerror = () => {
+
+            console.log('error');
+
+        }
+
+        this.ws.onmessage = function(event) {
+
+            console.log(event);
+
+        }
 
     }
 
@@ -28,6 +53,8 @@ class Chat extends React.Component {
         if ( this.state.is_connected == false ) {
 
             this.setState( { tabuser: [...this.state.tabuser, this.state.login_text] } )
+
+            this.ws.send(JSON.stringify({ type: "", typeTrame: "user", nom: this.state.login_text, id: string }))
 
         }
 
@@ -169,8 +196,6 @@ function Chat_display_and_type(props) {
 }
 
 function Chat_display(props) {
-
-    console.log(props.typing)
 
     return <div className='chat_display'>
 
