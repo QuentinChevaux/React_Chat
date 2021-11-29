@@ -3,7 +3,7 @@ class Chat extends React.Component {
     constructor(props) {
         super(props);
         
-        this.state = {login_text: '', is_connected: false, user_input_text: '', tabmess: [], tabuser: []}
+        this.state = {login_text: '', is_connected: false, user_input_text: '', tabmess: [ { user:"Quentin", date:new Date(), message:"Hello"}], tabuser: []}
 
         this.enter_login = this.enter_login.bind(this)
 
@@ -33,7 +33,7 @@ class Chat extends React.Component {
 
         else {
 
-            this.setState( {tabmess: [] })
+            this.setState( { tabmess: [] })
 
             this.setState( { tabuser: [] })
 
@@ -54,7 +54,10 @@ class Chat extends React.Component {
 
     message_sent(event) {
 
-        this.setState( { tabmess: [...this.state.tabmess, this.state.user_input_text] } )
+        if ( this.state.user_input_text !== '' ) {
+
+            this.setState( { tabmess: [...this.state.tabmess, this.state.user_input_text] } )
+        }
 
         this.setState({ user_input_text: '' })
 
@@ -171,11 +174,33 @@ function Chat_display(props) {
 
         <div>
 
-            <div className='chat_display_text'>{props.tabmess.map((elem, key) => <div className='div_new_text'> {elem} </div> )} </div>
+            <div className='chat_display_text'> {props.tabmess.map((elem, key) => <Message_Object obj = {elem} key = {key} /> )} </div>
 
         </div>
 
     </div>
+
+}
+
+function Message_Object(props) {
+
+    return (
+    
+        <div className='message_object_father'>
+
+        <div className='flex_between'>
+
+            <div className='message_object_user'>{props.obj.user}</div>
+          
+            <div className='message_object_time'>{props.obj.date.toLocaleTimeString()}</div>
+
+        </div>
+
+            <div className='message_object_message'>{props.obj.message}</div>
+        
+        </div>
+        
+        )
 
 }
 
