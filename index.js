@@ -32,9 +32,42 @@ class Chat extends React.Component {
 
         }
 
-        this.ws.onmessage = function(event) {
+        this.ws.onmessage = (log) => {
 
-            console.log(event);
+            let message_recu = JSON.parse(log.data)
+
+            if (message_recu.typeTrame == 'lstUser') {
+
+                this.setState({ tabuser: message_recu.users})
+
+            }
+
+            else if (message_recu.typeTrame == 'idUser') {
+
+                this.id = message_recu.id
+
+            }
+
+            else if (message_recu.typeTrame == 'message') {
+
+                this.setState( { tabmess: [...this.state.tabmess, { user: message_recu.from, date: new Date(message_recu.date), message: message_recu.content } ]})
+
+            }
+
+        }
+        this.ws.onclose = () => {
+
+            this.setState( { tabmess: [] })
+
+            this.setState( { tabuser: [] })
+
+            this.setState( { user_input_text: '' })
+
+            this.setState( { login_text: '' } )
+
+            this.ws.send(JSON.stringify({ type: "", typeTrame: "logOut", nom: this.state.login_text, id: "0" }))
+
+            this.ws = null
 
         }
 
@@ -52,9 +85,61 @@ class Chat extends React.Component {
 
         if ( this.state.is_connected == false ) {
 
+            this.ws = new WebSocket('ws://localhost:8124/')
+
+            this.ws.onopen = () => {
+
+                console.log('Connected');
+
+            }
+
+            this.ws.onerror = () => {
+
+                console.log('error');
+
+            }
+
+            this.ws.onmessage = (log) => {
+
+                let message_recu = JSON.parse(log.data)
+
+                if (message_recu.typeTrame == 'lstUser') {
+
+                    this.setState({ tabuser: message_recu.users})
+
+                }
+
+                else if (message_recu.typeTrame == 'idUser') {
+
+                    this.id = message_recu.id
+
+                }
+
+                else if (message_recu.typeTrame == 'message') {
+
+                    this.setState( { tabmess: [...this.state.tabmess, { user: message_recu.from, date: new Date(message_recu.date), message: message_recu.content } ]})
+
+                }
+
+            }
+
+            this.ws.onclose = () => {
+
+                this.setState( { tabmess: [] })
+
+                this.setState( { tabuser: [] })
+
+                this.setState( { user_input_text: '' })
+
+                this.setState( { login_text: '' } )
+
+                this.ws = null
+
+            }
+
             this.setState( { tabuser: [...this.state.tabuser, this.state.login_text] } )
 
-            this.ws.send(JSON.stringify({ type: "", typeTrame: "user", nom: this.state.login_text, id: string }))
+            this.ws.send(JSON.stringify({ type: "", typeTrame: "user", nom: this.state.login_text, id: "0" }))
 
         }
 
@@ -67,6 +152,8 @@ class Chat extends React.Component {
             this.setState( { user_input_text: '' })
 
             this.setState( { login_text: '' } )
+
+            this.ws = null
 
         }
 
@@ -83,7 +170,9 @@ class Chat extends React.Component {
 
         if ( this.state.user_input_text !== '' ) {
 
-            this.setState( { tabmess: [...this.state.tabmess, { user: this.state.login_text, date:new Date(), message: this.state.user_input_text }] } )
+            this.setState( { tabmess: [...this.state.tabmess, { user: this.state.login_text, date: new Date(), message: this.state.user_input_text }] } )
+
+            this.ws.send(JSON.stringify({ type: "", typeTrame: "message", from: this.state.login_text, content: this.state.user_input_text, date: new Date() }))
 
         }
 
@@ -176,7 +265,7 @@ function Left_online_status(props) {
 
         <h2>Utilisateurs en Ligne :</h2>
 
-        {props.tabuser.map((elem, key) => <div className='div_user'> {elem} </div> )}
+        {props.tabuser.map((elem, key) => <div className='div_user'> {elem.nom} </div> )}
 
     </div>
 
