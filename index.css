@@ -156,6 +156,9 @@ h1 {
 .message_object_user {
 
     margin-bottom: 10px;
+    margin-left: 30px;
+    font-size: 20px;
+    color: steelblue;
 
     font-family: Blacklisted;
 
@@ -164,6 +167,9 @@ h1 {
 .message_object_time {
 
     font-family: Blacklisted;
+    margin-right: 30px;
+    font-size: 20px;
+    color: steelblue;
 
 }
 
