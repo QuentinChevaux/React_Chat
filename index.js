@@ -3,7 +3,7 @@ class Chat extends React.Component {
     constructor(props) {
         super(props);
         
-        this.state = {login_text: '', is_connected: false, user_input_text: '', tabmess: [ { user:"Quentin", date:new Date(), message:"Hello"}], tabuser: []}
+        this.state = {login_text: '', is_connected: false, user_input_text: '', tabmess: [], tabuser: []}
 
         this.enter_login = this.enter_login.bind(this)
 
@@ -56,10 +56,10 @@ class Chat extends React.Component {
 
         if ( this.state.user_input_text !== '' ) {
 
-            this.setState( { tabmess: [...this.state.tabmess, this.state.user_input_text] } )
+            this.setState( { tabmess: [...this.state.tabmess, { user: this.state.login_text, date:new Date(), message: this.state.user_input_text }] } )
 
         }
-        
+
         this.setState({ user_input_text: '' })
 
     }
